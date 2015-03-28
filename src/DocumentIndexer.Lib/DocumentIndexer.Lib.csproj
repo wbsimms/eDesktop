@@ -74,6 +74,7 @@
     <Compile Include="DocTypes\DocType.cs" />
     <Compile Include="DocTypes\IndexableDoc.cs" />
     <Compile Include="DocTypes\Word.cs" />
+    <Compile Include="Indexer.cs" />
     <Compile Include="IndexModel.cs" />
     <Compile Include="Resolver.cs" />
     <Compile Include="Searcher.cs" />

@@ -78,6 +78,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchFolderLoaderTest.cs" />
     <Compile Include="SearchFoldersValidatorsTest.cs" />
+    <Compile Include="IndexerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DocumentIndexer.Lib\DocumentIndexer.Lib.csproj">

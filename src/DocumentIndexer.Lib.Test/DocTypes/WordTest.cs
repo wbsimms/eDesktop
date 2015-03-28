@@ -23,7 +23,6 @@ namespace DocumentIndexer.Lib.Test.DocTypes
 			var result = word.Execute(model);
 			Assert.IsNotNull(result);
 			Assert.IsFalse(result.HasError);
-
 		}
 	}
 }
