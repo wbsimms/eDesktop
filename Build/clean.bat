@@ -1,1 +1,1 @@
-msbuild EHRProfiler.xml /t:Clean 
+msbuild eDesktop.xml /t:Clean 
