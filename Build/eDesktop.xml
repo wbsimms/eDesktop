@@ -1,0 +1,93 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0" DefaultTargets="TestFast">
+  <PropertyGroup>
+    <MainSln>..\eDesktop.sln</MainSln>
+    <DocumentIndexerLib>..\src\DocumentIndexer.Lib.Test\bin\DocumentIndexer.Lib.Test.dll</DocumentIndexerLib>
+    <TestContainers>/testcontainer:$(DocumentIndexerLib)</TestContainers>
+  </PropertyGroup>
+
+  <Target Name="BuildCI">
+    <CallTarget Targets="BuildMainCI" />
+  </Target>
+
+  <Target Name="TestFast">
+    <CallTarget Targets="BuildCommon" />
+    <CallTarget Targets="TestAll" />
+  </Target>
+
+  <Target Name="BuildCommon">
+    <CallTarget Targets="BuildMain" />
+  </Target>
+
+  <Target Name="TestAll">
+    <Message Text="========= Testing All ========" />
+    <Exec Command='mstest.exe /nologo  $(TestContainers) /detail:description' />
+  </Target>
+
+  <Target Name="TestAllCI">
+    <Message Text="========= Testing All ========" />
+    <Exec Command='mstest.exe /nologo  $(TestContainers) /detail:description /resultsfile:TestResults.trx /category:"!ImportData"' />
+  </Target>
+
+  <Target Name="TestOnly">
+    <Message Text="========= Testing All ========" />
+    <Exec Command='del TestResults.trx' />
+    <Exec Command='mstest.exe /category:"!DataImport&amp;!Utility" /detail:description /nologo  $(TestContainers) /resultsfile:TestResults.trx' />
+  </Target>
+
+  <!-- This is for NCover 5 -->
+  <Target Name="AddEnableCoverage">
+    <Message Text="========= Testing All ========" />
+    <Exec Command='ncover project-import --file=eDesktop.ncover --overwrite' ContinueOnError='false' />
+    <Exec Command='ncover enable eDesktop' />
+  </Target>
+
+  <!-- This is for NCover 5 -->
+  <Target Name="GetCoverageReport">
+    <Message Text="========= Testing All ========" />
+    <Exec Command='ncover summarize --project=eDesktop --wait --fail-build' />
+    <MakeDir Directories="coverage" />
+    <Exec Command='ncover report --project=eDesktop --file="coverage\fullcoveragereport.html"' />
+    <Exec Command='NCoverReportUpdater.exe coverage\fullcoveragereport.html http://iq-build.cloudapp.net:81' />
+  </Target>
+
+  <Target Name="RemoveTestResults">
+    <Exec Command='rmdir /S /Q TestResults' />
+  </Target>
+
+  <Target Name="SimianReport">
+    <Exec Command='simian-2.3.35.exe -includes=../src/**/*.cs -excludes=**/obj -excludes=**/bin -formatter=xml -failOnDuplication- > simian.xml' />
+    <Exec Command='SimianOutputCleaner.exe' />
+  </Target>
+
+  <Target Name="Clean">
+    <Message Text="================= Cleaning $(MainSln)"></Message>
+    <PropertyGroup>
+      <OutDir>$(SolutionRoot)\Bin\</OutDir>
+    </PropertyGroup>
+    <MSBuild Projects="$(MainSln)" Properties='OutDir=bin\' Targets='Clean'></MSBuild>
+    <RemoveDir Directories='obj\'></RemoveDir>
+    <Exec Command='git clean -fx -d' WorkingDirectory="..\" />
+  </Target>
+
+  <Target Name="BuildMain">
+    <Message Text="================= Building $(MainSln)"></Message>
+    <CallTarget Targets="RemoveTestResults" />
+    <PropertyGroup>
+      <OutDir>$(SolutionRoot)\Bin\</OutDir>
+    </PropertyGroup>
+    <MSBuild Projects="$(MainSln)" Properties='Configuration=Debug;OutDir=bin\;nowarn=1591' Targets='Rebuild'></MSBuild>
+    <RemoveDir Directories='obj\'></RemoveDir>
+  </Target>
+
+  <Target Name="BuildMainCI">
+    <Message Text="================= Building $(MainSln)"></Message>
+    <CallTarget Targets="RemoveTestResults" />
+    <PropertyGroup>
+      <OutDir>$(SolutionRoot)\Bin\</OutDir>
+    </PropertyGroup>
+    <MSBuild Projects="$(MainSln)" Properties='Configuration=CI;OutDir=bin\;nowarn=1591' Targets='Rebuild'></MSBuild>
+    <RemoveDir Directories='obj\'></RemoveDir>
+  </Target>
+
+
+</Project>

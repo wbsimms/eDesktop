@@ -18,6 +18,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F423B4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentIndexer.Lib.Test", "src\DocumentIndexer.Lib.Test\DocumentIndexer.Lib.Test.csproj", "{48B4198B-2356-4BB7-9040-EBFF872FF3F9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{678E9526-54C6-4A38-8E43-1EBCB500B89B}"
+	ProjectSection(SolutionItems) = preProject
+		Build\eDesktop.ncover = Build\eDesktop.ncover
+		Build\eDesktop.xml = Build\eDesktop.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

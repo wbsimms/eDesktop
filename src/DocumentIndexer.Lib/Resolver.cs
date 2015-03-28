@@ -4,7 +4,9 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using DocumentIndexer.Lib.DocTypes;
 using Microsoft.Practices.Unity;
+using Nest;
 
 namespace DocumentIndexer.Lib
 {
@@ -30,6 +32,11 @@ namespace DocumentIndexer.Lib
 			container.RegisterType<ISearchFolders, SearchFolders>();
 			container.RegisterType<ISearchFoldersLoader, SearchFoldersesLoader>();
 			container.RegisterType<ISearchFoldersValidator, SearchFoldersValidator>();
+
+			container.RegisterInstance<IElasticClient>(
+				new ElasticClient(new ConnectionSettings(new Uri("http://localhost:9200"),defaultIndex:"eDocuments"))
+				);
+			container.RegisterType<IWord, Word>();
 		}
 
 		public IUnityContainer Container

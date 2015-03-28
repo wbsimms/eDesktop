@@ -1,0 +1,58 @@
+﻿{
+    "Name": "eDesktop",
+    "Config": {
+        "branchCvgThreshold": 59.7,
+        "sequencePtCvgThreshold": 71.9,
+        "conditionCvgThreshold": 21.0,
+        "complexityThreshold": 25.0,
+        "satComplexityThreshold": 99.0,
+        "crappyMethodThreshold": 17.0,
+        "crapThreshold": 601.0,
+        "isCodeCentralProject": false,
+        "enabled": true,
+        "aggregateEnabled": true,
+        "mergeMode": "None",
+        "logLevel": "None",
+        "visibility": "Private",
+        "syncWithCC": true,
+        "mergeAppDomains": true,
+        "name": "EHRProfiler",
+        "matchRules": [
+            {
+                "matchData": "QTAgent32.exe",
+                "type": "Exe"
+            }
+        ],
+        "preCoverageFilter": {
+            "id": "CDE47D72FD70823FCD96BB19055B60DE20E90610",
+            "name": null,
+            "description": null,
+            "serverFilter": false,
+            "enabled": true,
+            "filterRules": [
+                {
+                    "include": true,
+                    "field": "Module",
+                    "condition": "Matches",
+                    "value": "DocumentIndexer.Lib.dll",
+                    "serverRule": false
+                },
+                {
+                    "include": false,
+                    "field": "Attribute",
+                    "condition": "Matches",
+                    "value": "System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage",
+                    "serverRule": false
+                },
+                {
+                    "include": false,
+                    "field": "Attribute",
+                    "condition": "Matches",
+                    "value": "System.Runtime.CompilerServices.CompilerGeneratedAttribute",
+                    "serverRule": false
+                }
+            ]
+        },
+        "postCoverageFilters": [ ]
+    }
+}

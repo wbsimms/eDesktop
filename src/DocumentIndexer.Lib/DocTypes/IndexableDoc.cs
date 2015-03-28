@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Nest;
 
 namespace DocumentIndexer.Lib.DocTypes
 {
@@ -6,26 +7,25 @@ namespace DocumentIndexer.Lib.DocTypes
 	{
 		DocType Type { get; }
 		string Extension { get; }
-		void GetContent();
-		void IndexContent();
-		IList<string> SupportedExtensions();
+		IList<string> SupportedExtensions { get; }
 	}
 
-	public abstract class IndexableDoc : IIndexableDoc
+	public class IndexableDoc : IIndexableDoc
 	{
 		public DocType Type { get; protected set; }
 		public string Extension { get; protected set; }
-		public abstract void GetContent();
-		public abstract void IndexContent();
+		public IList<string> SupportedExtensions { get; protected set; } 
+		protected IElasticClient ElasticClient;
+		protected IndexModel model;
 
-		public IList<string> SupportedExtensions()
+		public IndexableDoc(IElasticClient client)
 		{
-			return new List<string>();
+			this.ElasticClient = client;
 		}
 
 		protected bool IsExtensionSupported(string extension)
 		{
-			return SupportedExtensions().Contains(extension);
+			return this.SupportedExtensions.Contains(extension);
 		}
 	}
 }
